@@ -10,10 +10,12 @@ public class GoalScript : MonoBehaviour
     public AudioSource levelCompleteSound;
     public Text distanceText;
     public GameObject playerShip;
+    public GameObject[] astroids;
     // Start is called before the first frame update
     void Start()
     {
         collider = this.gameObject.GetComponent<BoxCollider2D>();
+        astroids = GameObject.FindGameObjectsWithTag("Astroid");
     }
 
     // Update is called once per frame
@@ -24,9 +26,16 @@ public class GoalScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.LogError("HIT");
-        this.transform.position = spawnPoints[Random.Range(0, 4)].position;
-        other.gameObject.transform.position = spawnPoints[Random.Range(0, 4)].position;
-        levelCompleteSound.Play();
+        if (other.gameObject.name == "Spaceship")
+        {
+            Debug.LogError("HIT");
+            this.transform.position = spawnPoints[Random.Range(0, 4)].position;
+            other.gameObject.transform.position = spawnPoints[Random.Range(0, 4)].position;
+            levelCompleteSound.Play();
+            foreach (GameObject gameObject in astroids)
+            {
+                gameObject.GetComponent<AstroidInitialPush>().ResetPosition();
+            }
+        }
     }
 }
