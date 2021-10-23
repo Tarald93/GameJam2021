@@ -11,4 +11,16 @@ public class SimplySpaceship : MonoBehaviour {
 			Input.GetAxis("Vertical") * speed,
 			0) * Time.deltaTime );
 	}
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        GetComponent<Rigidbody2D>().AddForce((transform.position - other.transform.position).normalized * 1500);
+        Debug.Log("collision");
+        //foreach (ContactPoint contact in collision.contacts)
+        //{
+        //    Debug.DrawRay(contact.point, contact.normal, Color.white);
+        //}
+        //if (collision.relativeVelocity.magnitude > 2)
+        //    audioSource.Play();
+    }
 }
